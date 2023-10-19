@@ -2,11 +2,15 @@ import React from 'react';
 import { useState } from 'react';
 import MoviesList from './components/MoviesList';
 import './App.css';
+import 'font-awesome/css/font-awesome.min.css';
+
 
 function App() {
   const [movies,setMovies]=useState([]);
+  const [isLoading,setIsLoading]=useState(false)
  
 async function fetchMoviesHandler(){
+  setIsLoading(true);
 const response=await fetch('https://swapi.dev/api/films/');
 const data= await response.json();
 const transformedMovies = data.results.map((movieData) => {
@@ -16,9 +20,11 @@ const transformedMovies = data.results.map((movieData) => {
     openingText: movieData.opening_crawl,
     releaseDate: movieData.release_date,
   };
+ 
 
 });
-setMovies(transformedMovies);
+setMovies(transformedMovies); 
+setIsLoading(false);
 }
   return (
     <React.Fragment>
@@ -26,7 +32,8 @@ setMovies(transformedMovies);
         <button onClick={fetchMoviesHandler} >Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+       {!isLoading && <MoviesList movies={movies} />} 
+       {isLoading && <i className="fa fa-spinner fa-spin fa-3x"></i> } 
       </section>
     </React.Fragment>
   );
