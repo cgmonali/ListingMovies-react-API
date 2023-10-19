@@ -3,8 +3,7 @@ import { useState , useEffect} from 'react';
 import MoviesList from './components/MoviesList';
 import './App.css';
 import 'font-awesome/css/font-awesome.min.css';
-
-
+import AddMovie from './components/AddMovie';
 function App() {
   const [movies,setMovies]=useState([]);
   const [isLoading,setIsLoading]=useState(false)
@@ -49,8 +48,17 @@ useEffect(() => {
       fetchMoviesHandler();
    
 }, [fetchMoviesHandler]);
+
+function addMovieHandler(movie) {
+  console.log(movie);
+}
+
   return (
     <React.Fragment>
+      <section>
+        <AddMovie onAddMovie={addMovieHandler} />
+      </section>
+
       <section>
         <button onClick={fetchMoviesHandler} >Fetch Movies</button>
       </section>
