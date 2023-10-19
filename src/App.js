@@ -13,11 +13,11 @@ function App() {
 
 
 
-async function  fetchMoviesHandler(){
+const  fetchMoviesHandler =useCallback(async()=>{
   setIsLoading(true);
   setError(null)
    try{
-const response=await fetch('https://swapi.dev/api/film/');
+const response=await fetch('https://swapi.dev/api/films/');
 
 if(!response.ok){
   throw new Error('something went wrong.....retrying')
@@ -42,20 +42,13 @@ setRetrying(true);
 
 
 
-}};
+}},[])
 
 useEffect(() => {
-  if (retrying) {
-    const retryTimer = setTimeout(() => {
+ 
       fetchMoviesHandler();
-    }, 5000);
-
-    return () => {
-      clearTimeout(retryTimer);
-      setRetrying(false);
-    };
-  }
-}, [retrying, fetchMoviesHandler]);
+   
+}, [fetchMoviesHandler]);
   return (
     <React.Fragment>
       <section>
